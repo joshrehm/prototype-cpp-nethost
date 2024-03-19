@@ -7,7 +7,7 @@ constexpr static auto PROTOTYPE_CPP_NETHOST_VERSION_MINOR = @VERSION_MINOR@;
 constexpr static auto PROTOTYPE_CPP_NETHOST_VERSION_PATCH = @VERSION_PATCH@;
 constexpr static auto PROTOTYPE_CPP_NETHOST_VERSION_BUILD = @VERSION_BUILD@;
 
-constexpr static char[] PROTOTYPE_CPP_NETHOST_VERSION = "@VERSION@";
+constexpr static char PROTOTYPE_CPP_NETHOST_VERSION[] = "@VERSION@";
 
 }
 

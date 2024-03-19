@@ -26,6 +26,15 @@ target_include_directories(prototype_cpp_nethost
 #
 # Set target libraries
 find_package(fmt REQUIRED)
+find_package(nethostfxr REQUIRED)
+
 target_link_libraries(prototype_cpp_nethost PRIVATE
     fmt::fmt
+    nethostfxr::nethostfxr
 )
+
+# Ensure the nethost dll is copied to the output directory so our application runs
+add_custom_command(TARGET prototype_cpp_nethost POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different 
+    "${nethostfxr_RUNTIME_LIBRARY_DIRS}/nethost.dll"
+    "$<TARGET_FILE_DIR:prototype_cpp_nethost>")
