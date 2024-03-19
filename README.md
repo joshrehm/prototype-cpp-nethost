@@ -37,6 +37,11 @@ Available cmake cache variables are described below:
    
 ### PROTOTYPE_CPP_NETHOST Variables
 
+ - `DOTNET_HOST_ARCH`: Specifies the .NET Host Architecture. Defaults based on the 
+   current processor architecture. This name should match the architecture value used
+   in the .NET host directory name (e.g. win-x64).
+ - `DOTNET_HOST_ROOT_DIR`: Specifies the root directory of the .NET host to load.
+   By default this is "C:/Program Files/dotnet/packs/Microsoft.NETCore.App.Host.${DOTNET_HOST_ARCH}".
  - `PROTOTYPE_CPP_NETHOST_OUTPUT_PATH`: Specifies the output path of this project's 
    built binaries. Unlike `PROJECT_OUTPUT_PATH`, this variable affects only this
    project. Defaults to `${PROJECT_OUTPUT_PATH}`.
