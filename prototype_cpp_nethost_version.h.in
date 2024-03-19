@@ -1,0 +1,13 @@
+#pragma once
+
+namespace prototype_cpp_nethost {
+
+constexpr static auto PROTOTYPE_CPP_NETHOST_VERSION_MAJOR = @VERSION_MAJOR@;
+constexpr static auto PROTOTYPE_CPP_NETHOST_VERSION_MINOR = @VERSION_MINOR@;
+constexpr static auto PROTOTYPE_CPP_NETHOST_VERSION_PATCH = @VERSION_PATCH@;
+constexpr static auto PROTOTYPE_CPP_NETHOST_VERSION_BUILD = @VERSION_BUILD@;
+
+constexpr static char[] PROTOTYPE_CPP_NETHOST_VERSION = "@VERSION@";
+
+}
+

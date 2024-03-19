@@ -1,0 +1,9 @@
+[requires]
+fmt/10.2.1
+
+[tool_requires]
+cppcheck/2.13.3
+
+[generators]
+CMakeDeps
+CMakeToolchain

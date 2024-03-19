@@ -1,0 +1,3 @@
+# Specify the project version number as MAJOR.MINOR.PATCH[.BUILD]. If BUILD is not provided, it will be generated
+# as a two digit year followed by three digit day of the current year
+0.0.1
