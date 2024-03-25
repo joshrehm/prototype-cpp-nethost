@@ -1,5 +1,12 @@
 # prototype-cpp-nethost Repository
 
+Demonstrates self-hosting the .NET runtime in a C++ application and
+making function calls between both the host and the hosted assembly.
+
+This project is based on the content in [this](https://learn.microsoft.com/en-us/dotnet/core/tutorials/netcore-hosting) 
+tutorial using the `nethost.h` and `hostfxr.h` headers along with the
+`nethost.lib` and `nethost.dll` libraries.
+
 # Configure and Build
 
 ## Requirements
