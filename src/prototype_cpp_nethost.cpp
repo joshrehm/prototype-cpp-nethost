@@ -7,6 +7,9 @@
 #include<nethost.h>
 #include<hostfxr.h>
 
+#define MAKE_WIDE2(s)  L ## s
+#define MAKE_WIDE(s)   MAKE_WIDE2(s)
+
 int main()
 {
     // Verify we can call into hostfxr We'll refactor this to a full implementation later.
@@ -20,6 +23,6 @@ int main()
         return 1;
     }
 
-    std::wcout << L"Located .NET Host at '" << buffer.data() << L"'" << std::endl;
+    std::wcout << L"Located .NET Host version " MAKE_WIDE(DOTNET_HOST_VERSION) " at '" << buffer.data() << L"'" << std::endl;
     return 0;
 }
