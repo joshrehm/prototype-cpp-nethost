@@ -25,7 +25,7 @@ add_subdirectory(src)
 # because we must use the MSVC generator. Alternatively you can set up
 # the whole project to use the MSVC generator, but we use Ninja.
 include(ExternalProject)
-ExternalProject_add(HostedAssembly
+ExternalProject_add(HostProxy
     BUILD_ALWAYS      TRUE
     SOURCE_DIR        "${CMAKE_SOURCE_DIR}/host_proxy"
     BINARY_DIR        "${CMAKE_SOURCE_DIR}/.build_host_proxy"
@@ -34,12 +34,27 @@ ExternalProject_add(HostedAssembly
     TEST_COMMAND      ""
 )
 
-add_custom_command(TARGET HostedAssembly POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy_if_different 
-    "${CMAKE_SOURCE_DIR}/.build_host_proxy/src/${CMAKE_BUILD_TYPE}/HostProxy.dll"
+add_custom_command(TARGET HostProxy POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+    "${CMAKE_SOURCE_DIR}/.build_host_proxy/${CMAKE_BUILD_TYPE}/HostProxy.dll"
     "${CMAKE_SOURCE_DIR}/.bin")
 
-add_custom_command(TARGET HostedAssembly POST_BUILD
+add_custom_command(TARGET HostProxy POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+    "${CMAKE_SOURCE_DIR}/.build_host_proxy/${CMAKE_BUILD_TYPE}/HostProxy.runtimeconfig.json"
+    "${CMAKE_SOURCE_DIR}/.bin")
+
+ExternalProject_add(HostedModule
+    BUILD_ALWAYS      TRUE
+    SOURCE_DIR        "${CMAKE_SOURCE_DIR}/hosted_module"
+    BINARY_DIR        "${CMAKE_SOURCE_DIR}/.build_hosted_module"
+    CMAKE_GENERATOR    "Visual Studio 17 2022"
+    INSTALL_COMMAND   ""
+    TEST_COMMAND      ""
+    DEPENDS           HostProxy
+)
+
+add_custom_command(TARGET HostedModule POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E copy_if_different 
-    "${CMAKE_SOURCE_DIR}/.build_host_proxy/src/${CMAKE_BUILD_TYPE}/HostProxy.runtimeconfig.json"
+    "${CMAKE_SOURCE_DIR}/.build_hosted_module/${CMAKE_BUILD_TYPE}/HostedModule.dll"
     "${CMAKE_SOURCE_DIR}/.bin")
