@@ -1,6 +1,10 @@
 #include"prototype_cpp_nethost/prototype_cpp_nethost.h"
 #include"prototype_cpp_nethost/dotnet_host_loader.h"
+#include"prototype_cpp_nethost/dotnet_host_proxy.h"
+#include"prototype_cpp_nethost/native_host_proxy.h"
+
 #include<array>
+#include<cassert>
 #include<iostream>
 #include<filesystem>
 #include<fmt/core.h>
@@ -42,12 +46,48 @@ bootstrap_fn load_dotnet_host()
     return bootstrap;
 }
 
+void __stdcall debug_log(char const* message, std::int32_t length=-1)
+{
+    if (length < 0)
+    {
+        auto const message_length = strlen(message);
+        assert(message_length <= std::numeric_limits<std::int32_t>::max());
+        length = static_cast<std::int32_t>(message_length);
+    }
+    std::copy(message, message + length, std::ostream_iterator<char> { std::cout });
+}
+
+// Populate an instance of `native_host_proxy` with function pointers we want to 
+// expose to managed code.
+native_host_proxy get_native_proxy()
+{
+    return native_host_proxy
+    {
+        .debug_log = &debug_log
+    };
+}
+
 int main()
 {
-    [[maybe_unused]]
     auto const bootstrap = load_dotnet_host();
+
+    // Bootstrap the proxy assembly. Provide it a list of native function pointers
+    // it can use to call into native code as well as memory space for it to store
+    // its own function pointers for calling into .net
+    //
+    // The size of the structures are passed to the proxy, allowing it to do basic
+    // version checking. This requires that the order and number of function 
+    // pointers never change once the API is released.
+    auto dotnet_proxy = dotnet_host_proxy {};
+    auto native_proxy = get_native_proxy();
+    bootstrap(&native_proxy, sizeof(native_proxy),
+              &dotnet_proxy, sizeof(dotnet_proxy));
     
-    // TODO: Call bootstrap. See bootstrap.cs for more details
-    
+    // donet_proxy now contains function pointers into managed space that we
+    // may call.
+    // 
+    // TODO: Add ability to load modules (get a managed IModule) that we can use with
+    //       donet_proxy.
+
     return 0;
 }
