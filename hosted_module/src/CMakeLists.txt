@@ -1,3 +1,3 @@
 target_sources(HostedModule PRIVATE 
-    Module.cs
+    ModuleInfo.cs
 )

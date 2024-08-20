@@ -6,6 +6,11 @@ add_executable(prototype_cpp_nethost
 
 set_standard_target_options(prototype_cpp_nethost)
 
+# TODO: These don't work; supposedly needed to allow mixed mode debugging
+# if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+#     target_link_options(prototype_cpp_nethost PUBLIC /DEBUG /ASSEMBLYDEBUG)
+# endif()
+
 #
 # Enable CppCheck
 if (PROTOTYPE_CPP_NETHOST_ENABLE_CPPCHECK)

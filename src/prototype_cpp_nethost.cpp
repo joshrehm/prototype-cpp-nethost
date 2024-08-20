@@ -55,6 +55,7 @@ void __stdcall debug_log(char const* message, std::int32_t length=-1)
         length = static_cast<std::int32_t>(message_length);
     }
     std::copy(message, message + length, std::ostream_iterator<char> { std::cout });
+    std::cout << '\n';
 }
 
 // Populate an instance of `native_host_proxy` with function pointers we want to 
@@ -88,6 +89,26 @@ int main()
     // 
     // TODO: Add ability to load modules (get a managed IModule) that we can use with
     //       donet_proxy.
+    char buffer[1024];
+    auto module = dotnet_proxy.Module_Load("HostedModule.dll");
+    if (module == nullptr)
+    {
+        std::cerr << "Failed to load module." << std::endl;
+        return 0;
+    }
 
+    dotnet_proxy.Module_Name(module, buffer, sizeof(buffer));
+    std::cout << "Module:    " << buffer;
+    
+    dotnet_proxy.Module_Version(module, buffer, sizeof(buffer));
+    std::cout << "v" << buffer << '\n';
+
+    dotnet_proxy.Module_Namespace(module, buffer, sizeof(buffer));
+    std::cout << "Namespace: " << buffer << '\n';
+
+    dotnet_proxy.Module_AssemblyName(module, buffer, sizeof(buffer));
+    std::cout << "Assembly:  " << buffer << std::endl;
+
+    dotnet_proxy.Module_Release(module);
     return 0;
 }

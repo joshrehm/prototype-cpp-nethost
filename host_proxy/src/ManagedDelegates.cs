@@ -10,9 +10,11 @@ namespace HostProxy
     [StructLayout(LayoutKind.Sequential)]
     internal unsafe struct ManagedDelegates
     {
-        public delegate* unmanaged[Stdcall]<IntPtr, byte*, int, void> Module_Name;
-        public delegate* unmanaged[Stdcall]<IntPtr, byte*, int, void> Module_Namespace;
-        public delegate* unmanaged[Stdcall]<IntPtr, byte*, int, void> Module_AssemblyName;
-        public delegate* unmanaged[Stdcall]<IntPtr, byte*, int, void> Module_AssemblyVersion;
+        public delegate* unmanaged[Stdcall]<byte*, IntPtr> Module_Load;
+        public delegate* unmanaged[Stdcall]<IntPtr, void> Module_Release;
+        public delegate* unmanaged[Stdcall]<IntPtr, byte*, int, int> Module_Name;
+        public delegate* unmanaged[Stdcall]<IntPtr, byte*, int, int> Module_Namespace;
+        public delegate* unmanaged[Stdcall]<IntPtr, byte*, int, int> Module_Version;
+        public delegate* unmanaged[Stdcall]<IntPtr, byte*, int, int> Module_AssemblyName;
     }
 }

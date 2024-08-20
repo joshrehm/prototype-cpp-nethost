@@ -4,7 +4,6 @@
 
 # Customize your toolchain requirements here.
 
-
 # 
 # Standard toolchain sets up conan integration and configures dependencies.
 include(InvokeConanToolchain)

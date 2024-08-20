@@ -26,10 +26,12 @@ add_subdirectory(src)
 # the whole project to use the MSVC generator, but we use Ninja.
 include(ExternalProject)
 ExternalProject_add(HostProxy
+    # TODO: Figure out if BUILD_ALWAYS is still needed
     BUILD_ALWAYS      TRUE
     SOURCE_DIR        "${CMAKE_SOURCE_DIR}/host_proxy"
     BINARY_DIR        "${CMAKE_SOURCE_DIR}/.build_host_proxy"
-    CMAKE_GENERATOR    "Visual Studio 17 2022"
+    CMAKE_GENERATOR   "Visual Studio 17 2022"
+    CMAKE_ARGS        "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
     INSTALL_COMMAND   ""
     TEST_COMMAND      ""
 )
@@ -45,10 +47,12 @@ add_custom_command(TARGET HostProxy POST_BUILD
     "${CMAKE_SOURCE_DIR}/.bin")
 
 ExternalProject_add(HostedModule
+    # TODO: Figure out if BUILD_ALWAYS is still needed
     BUILD_ALWAYS      TRUE
     SOURCE_DIR        "${CMAKE_SOURCE_DIR}/hosted_module"
     BINARY_DIR        "${CMAKE_SOURCE_DIR}/.build_hosted_module"
-    CMAKE_GENERATOR    "Visual Studio 17 2022"
+    CMAKE_GENERATOR   "Visual Studio 17 2022"
+    CMAKE_ARGS        "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
     INSTALL_COMMAND   ""
     TEST_COMMAND      ""
     DEPENDS           HostProxy

@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Reflection;
 using System.Runtime;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -11,41 +13,118 @@ namespace HostProxy
         internal static unsafe ManagedDelegates GetManagedDelegates()
         {
             var delegates = new ManagedDelegates();
-            
+
+            delegates.Module_Load = &Module_Load;
             delegates.Module_Name = &Module_Name;
             delegates.Module_Namespace = &Module_Namespace;
+            delegates.Module_Version = &Module_Version;
             delegates.Module_AssemblyName = &Module_AssemblyName;
-            delegates.Module_AssemblyVersion = &Module_AssemblyVersion;
 
             return delegates;
         }
-        
+
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
-        public static unsafe void Module_Name(IntPtr module, byte* out_buffer, int out_size)
+        public static unsafe IntPtr Module_Load(byte* path)
         {
-            // TODO: Implement me. Delegate the call to a managed IModule instance
-            //       identified by `module`.
+            // TODO: Set last error API?
+            if (path == null)
+                return IntPtr.Zero;
+
+            try
+            {
+                var modulePath = NativeUtilities.MarshalNativeString(path);
+                var module = Module.Load(modulePath);
+                var handle = GCHandle.Alloc(module);
+                return GCHandle.ToIntPtr(handle);
+            }
+            catch (Exception)
+            {
+                // TODO: Set last error API
+                return IntPtr.Zero;
+            }
         }
 
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
-        public static unsafe void Module_Namespace(IntPtr module, byte* out_buffer, int out_size)
+        public static unsafe void Module_Release(IntPtr moduleHandle)
         {
-            // TODO: Implement me. Delegate the call to a managed IModule instance
-            //       identified by `module`.
+            try
+            {
+
+                var handle = GCHandle.FromIntPtr(moduleHandle);
+                handle.Free();
+            }
+            catch (Exception)
+            {
+                // TODO: Set last error API
+            }
         }
 
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
-        public static unsafe void Module_AssemblyName(IntPtr module, byte* out_buffer, int out_size)
+        public static unsafe int Module_Name(IntPtr moduleHandle, byte* out_buffer, int out_size)
         {
-            // TODO: Implement me. Delegate the call to a managed IModule instance
-            //       identified by `module`.
+            try
+            {
+
+                var handle = GCHandle.FromIntPtr(moduleHandle);
+                var module = (Module)handle.Target;
+                return NativeUtilities.MarshalNativeString(module.ModuleInfo.Name, out_buffer, out_size);
+            }
+            catch (Exception)
+            {
+                // TODO: Set last error API
+                return 0;
+            }
         }
 
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
-        public static unsafe void Module_AssemblyVersion(IntPtr module, byte* out_buffer, int out_size)
+        public static unsafe int Module_Namespace(IntPtr moduleHandle, byte* out_buffer, int out_size)
         {
-            // TODO: Implement me. Delegate the call to a managed IModule instance
-            //       identified by `module`.
+            try
+            {
+
+                var handle = GCHandle.FromIntPtr(moduleHandle);
+                var module = (Module)handle.Target;
+                return NativeUtilities.MarshalNativeString(module.ModuleInfo.Namespace, out_buffer, out_size);
+            }
+            catch (Exception)
+            {
+                // TODO: Set last error API
+                return 0;
+            }
+        }
+
+        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
+        public static unsafe int Module_Version(IntPtr moduleHandle, byte* out_buffer, int out_size)
+        {
+            try
+            {
+
+                var handle = GCHandle.FromIntPtr(moduleHandle);
+                var module = (Module)handle.Target;
+                return NativeUtilities.MarshalNativeString(module.ModuleInfo.Version, out_buffer, out_size);
+            }
+            catch (Exception)
+            {
+                // TODO: Set last error API
+                return 0;
+            }
+        }
+
+        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
+        public static unsafe int Module_AssemblyName(IntPtr moduleHandle, byte* out_buffer, int out_size)
+        {
+            try
+            {
+
+                var handle = GCHandle.FromIntPtr(moduleHandle);
+                var module = (Module)handle.Target;
+                return NativeUtilities.MarshalNativeString(module.ModuleInfo.AssemblyName, out_buffer, out_size);
+            }
+            catch (Exception)
+            {
+                // TODO: Set last error API
+                return 0;
+            }
         }
     }
 
