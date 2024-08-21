@@ -40,7 +40,8 @@ bootstrap_fn load_dotnet_host()
         (executable_dir / AssemblyFileName).wstring().c_str(),
         (executable_dir / RuntimeConfigFileName).wstring().c_str()))
     {
-        throw std::runtime_error(std::format("Failed to load .NET Assembly (Error code {})", rc));
+        throw std::runtime_error(std::format(
+            "Failed to load .NET Assembly (Error code {})", rc));
     }
 
     return bootstrap;
@@ -65,6 +66,7 @@ native_host_proxy get_native_proxy()
     return native_host_proxy
     {
         .debug_log = &debug_log
+        // TODO: Add other stuff
     };
 }
 
@@ -86,9 +88,8 @@ int main()
     
     // donet_proxy now contains function pointers into managed space that we
     // may call.
-    // 
-    // TODO: Add ability to load modules (get a managed IModule) that we can use with
-    //       donet_proxy.
+
+    // Demonstrate loading a module
     char buffer[1024];
     auto module = dotnet_proxy.Module_Load("HostedModule.dll");
     if (module == nullptr)

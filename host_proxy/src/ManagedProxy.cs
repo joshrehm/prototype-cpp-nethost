@@ -7,9 +7,11 @@ using System.Runtime.InteropServices;
 
 namespace HostProxy
 {
+    // Provides the implementation of the managed API passed to the
+    // native host.
     internal class ManagedProxy
     {
-        // Populate an instances of ManagedDelegates.
+        // Managed API function to create an instance of ManagedDelegates
         internal static unsafe ManagedDelegates GetManagedDelegates()
         {
             var delegates = new ManagedDelegates();
@@ -23,6 +25,8 @@ namespace HostProxy
             return delegates;
         }
 
+        // Managed API function to load a module. Callers must call
+        // Module_Release when they are finished with the module.
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
         public static unsafe IntPtr Module_Load(byte* path)
         {
@@ -44,6 +48,7 @@ namespace HostProxy
             }
         }
 
+        // Managed API function to unload a module
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
         public static unsafe void Module_Release(IntPtr moduleHandle)
         {
@@ -59,6 +64,7 @@ namespace HostProxy
             }
         }
 
+        // Managed API function to retrieve the module name from a loaded module
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
         public static unsafe int Module_Name(IntPtr moduleHandle, byte* out_buffer, int out_size)
         {
@@ -76,6 +82,7 @@ namespace HostProxy
             }
         }
 
+        // Managed API function to retrieve the module namespace from a loaded module
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
         public static unsafe int Module_Namespace(IntPtr moduleHandle, byte* out_buffer, int out_size)
         {
@@ -93,6 +100,7 @@ namespace HostProxy
             }
         }
 
+        // Managed API function to retrieve the module version string from a loaded module
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
         public static unsafe int Module_Version(IntPtr moduleHandle, byte* out_buffer, int out_size)
         {
@@ -110,6 +118,7 @@ namespace HostProxy
             }
         }
 
+        // Managed API function to retrieve the module assembly file name from a loaded module
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
         public static unsafe int Module_AssemblyName(IntPtr moduleHandle, byte* out_buffer, int out_size)
         {

@@ -3,6 +3,7 @@ using System.Text;
 
 namespace HostProxy
 {
+    // Utility functions for marshalling data between native host and managed code
     public class NativeUtilities
     {
         public static unsafe string MarshalNativeString(byte* bytePointer)

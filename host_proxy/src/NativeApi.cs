@@ -4,10 +4,13 @@ namespace HostProxy
     // style API and handle any required marshalling into the native delegates.
     public class NativeApi
     {
+        // A block of function pointers provided by the native host that expose the
+        // raw native API
         private NativeDelegates delegates_;
 
-        // Creates an instance of `NativeApi`. Callers should instead use the
-        // `HostProxy.NativeApi` property.
+        // Creates an instance of `NativeApi` to wrap the raw native host API. Module
+        // developers should use the NativeApi class rather than the NativeDelegates
+        // directly.
         internal NativeApi(NativeDelegates delegates)
         {
             delegates_ = delegates;

@@ -2,6 +2,7 @@ using System;
 
 namespace HostedModule
 {
+    // Example implementation of a HostProxy.IModuleInfo
     public class ModuleInfo : HostProxy.IModuleInfo
     {
         public string Name { get { return "HostedProxy"; } }

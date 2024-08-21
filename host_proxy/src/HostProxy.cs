@@ -4,8 +4,12 @@ using System.Runtime.InteropServices;
 
 namespace HostProxy
 {
+    // The main host proxy class. Provides the Bootstrap method and stores an instance of the
+    // native API exposed by the native host.
     public class HostProxy
     {
+        // Module implementations should use this to access the Native API exposed by the native host
+        // TODO: Provide this to loaded modules.
         internal static NativeApi NativeApi { get; private set; }
 
         // Managed bootstrap function. Called by the native host application when the assembly
