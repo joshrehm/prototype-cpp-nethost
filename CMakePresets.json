@@ -8,7 +8,6 @@
             "binaryDir": "${sourceDir}/.build/${presetName}",
             "toolchainFile": "${sourceDir}/cmake/PrototypeCppNethostToolchain.cmake",
             "cacheVariables": {
-                "PROJECT_CONAN_PROFILE": "${presetName}"
             }
         },
 

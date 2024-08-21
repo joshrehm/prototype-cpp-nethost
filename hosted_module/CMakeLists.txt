@@ -9,8 +9,8 @@ set_target_properties(HostedModule PROPERTIES
     DOTNET_SDK                    "Microsoft.NET.Sdk"
     VS_PACKAGE_REFERENCES         "System"
 
-    # TODO: Need a way to inject the correct path from the parent project?
-    VS_DOTNET_REFERENCE_HostProxy      "${CMAKE_SOURCE_DIR}/../.bin/HostProxy.dll"
+    # HOST_PROXY_PATH is passed in from the root CMakeLists.txt
+    VS_DOTNET_REFERENCE_HostProxy      "${HOST_PROXY_PATH}/HostProxy.dll"
 
     # TODO: This doesn't work; supposedly needed to allow mixed mode debugging
     #VS_GLOBAL_EnableUnmanagedDebugging          "true"

@@ -1,9 +1,8 @@
 # Configuration and build output folders
-.bin
 .build
 .build_hosted_module
 .build_host_proxy
-.conan
+bin
 
 # User Files
 CMakeUserPresets.js

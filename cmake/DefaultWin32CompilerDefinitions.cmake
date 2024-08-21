@@ -1,8 +1,7 @@
+# Preprocessor definitions for Windows platforms
 #
-# DO NOT put MSVC specific definitions in this file!!! This file is for
-# generic WIN32 definitions.
-#
-# Instead, put them in DefaultMsvcCompilerDefinitions.cmake.
+# DO NOT put MSVC specific definitions in this file!!! Use the
+# 'Msvc/DefaultCompilerDefinitions.cmake' file for that.
 #
 target_compile_definitions(${target} PRIVATE
     NOMINMAX               # Disable creation of min/max items in Windows
@@ -18,11 +17,3 @@ target_compile_definitions(${target} PRIVATE
     _WIN32_WINNT=0x0A00
     WINVER=0x0A00
 )
-
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    if (wil_FOUND)
-        target_compile_definitions(${target} PRIVATE
-            RESULT_DIAGNOSTICS_LEVEL=5
-        )
-    endif()
-endif()

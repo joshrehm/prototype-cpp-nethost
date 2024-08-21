@@ -7,7 +7,7 @@
 #include<cassert>
 #include<iostream>
 #include<filesystem>
-#include<fmt/core.h>
+#include<format>
 
 constexpr static wchar_t AssemblyName[]          = L"HostProxy.HostProxy, HostProxy";
 constexpr static wchar_t AssemblyFileName[]      = L"HostProxy.dll";
@@ -22,7 +22,7 @@ std::filesystem::path get_executable_path()
     auto const executable_path_length = GetModuleFileNameW(nullptr, executable_path, 
         static_cast<DWORD>(std::size(executable_path)));
     if (executable_path_length == 0 || executable_path_length == std::size(executable_path))
-        throw std::runtime_error(fmt::format("Unable to determine executable path (Error code {})", GetLastError()));
+        throw std::runtime_error(std::format("Unable to determine executable path (Error code {})", GetLastError()));
 
     return std::filesystem::path { executable_path } .parent_path();
 }
@@ -40,7 +40,7 @@ bootstrap_fn load_dotnet_host()
         (executable_dir / AssemblyFileName).wstring().c_str(),
         (executable_dir / RuntimeConfigFileName).wstring().c_str()))
     {
-        throw std::runtime_error(fmt::format("Failed to load .NET Assembly (Error code {})", rc));
+        throw std::runtime_error(std::format("Failed to load .NET Assembly (Error code {})", rc));
     }
 
     return bootstrap;
